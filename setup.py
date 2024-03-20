@@ -16,7 +16,7 @@ setup(
                       'numba',
                       'scipy',
                       'pyyaml',
-                      'sklearn',
+                      'scikit-learn',
                       'tqdm',
                       'pyyaml']
 )
