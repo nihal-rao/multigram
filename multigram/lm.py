@@ -1,6 +1,7 @@
 import numpy as np
 from collections import defaultdict
 import pickle
+import re
 
 class MultigramLM:
     def __init__(self, maxLength=5, minFreq=4, data=None, 
@@ -29,8 +30,11 @@ class MultigramLM:
             for i in range(len(line)):
                 for l in range(min(i+1, self.maxLength)):
                     w = line[i-l:i+1]
-                    wordCountDict[w] += 1
-            self.unigramFreq += len(line)
+                    space_idxs = [m.start() for m in re.finditer(' ', w)]
+                    if len(space_idxs) == 0 or space_idxs == [0, len(w) - 1] or space_idxs == [0] or space_idxs == [len(w) - 1]:
+                        wordCountDict[w] += 1
+
+            self.unigramFreq += len(line) #dont worry about this as not used in the functions we require
 
 
         self.vocab = set(k for k,v in wordCountDict.items() if len(k)==1 or self.minFreq<=v)
@@ -38,7 +42,7 @@ class MultigramLM:
         # add unk
         self.vocab.add(self.unkToken)
 
-        self.word2id = {w:i for i,w in enumerate(sorted(list(self.vocab)))}
+        self.word2id = {w:i + 1 for i,w in enumerate(sorted(list(self.vocab)))} # tokens start from 1. 0 is reserved for padding 
         self.id2word = {i:w for w,i in self.word2id.items()}
 
         charVocab = set(w for w in self.vocab if len(w)==1)
