@@ -42,7 +42,7 @@ class MultigramLM:
         # add unk
         self.vocab.add(self.unkToken)
 
-        self.word2id = {w:i + 1 for i,w in enumerate(sorted(list(self.vocab)))} # tokens start from 1. 0 is reserved for padding 
+        self.word2id = {w:i for i,w in enumerate(sorted(list(self.vocab)))} # tokens start from 1. 0 is reserved for padding 
         self.id2word = {i:w for w,i in self.word2id.items()}
 
         charVocab = set(w for w in self.vocab if len(w)==1)
