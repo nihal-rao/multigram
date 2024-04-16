@@ -334,7 +334,7 @@ class MultigramLM:
         neoi2w = {}
         for i in nonZeroIdx:
             w = self.id2word[i]
-            neow2i[w] = len(neow2i)
+            neow2i[w] = len(neow2i + 1)
             neoi2w[neow2i[w]] = w
         self.word2id = neow2i
         self.id2word = neoi2w
